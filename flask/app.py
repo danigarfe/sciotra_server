@@ -3,6 +3,11 @@ from flask_mysqldb import MySQL
 from functions import *
 app = Flask(__name__)
 '''
+PER EXECUTAR, A LA CARPETA /flask FEM:
+pip install flask
+pip install flask_mysqldb
+flask run
+
 EXEMPLE D'ÚS MYSQL:
 cur = mysql.connection.cursor()
 cur.execute("INSERT INTO MyUsers(firstName, lastName)........")
@@ -15,6 +20,9 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'Sciotra1234'
 app.config['MYSQL_DB'] = 'bbdd'
 mysql = MySQL(app)
+
+#INICIA EL SENSORS
+initsensors(mysql)
 
 @app.route('/')
 def index():
@@ -35,5 +43,3 @@ def put():
     return 'OK'
 
 
-#INICIA EL SENSORS. UN THREAD PER A CADA "SENSOR VIRTUAL". COMPORTAMENT DE CADA TIPUS DEFINIT A classes.py
-initsensors(mysql)
