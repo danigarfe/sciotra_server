@@ -10,12 +10,14 @@ module.exports = {
           });
         console.log('Inserted data on ' + table + ' with query: ' + q)
     },
-    getlast: function (table, connection) {
+    getlast: function (table, connection, callback) {
         let q = "SELECT * FROM " + table + " ORDER BY id DESC LIMIT 1;"
         let result;
         connection.query(q, function(err, rows, fields) {
             if (err) throw err;
-            return rows[0]
+            console.log(Object.values(rows[0]))
+            callback(rows[0])
+            //return Object.values(rows[0])
           });
     }
   };

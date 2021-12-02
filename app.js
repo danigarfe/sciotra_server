@@ -25,8 +25,10 @@ app.listen(port, () => {
 //EN PROCESO...
 app.get('/last', (req, res) => {
   let result = functions.getlast('autobus_bus', connection)
-  console.log(result)
-  res.send('OK')
+  functions.getlast('autobus_bus', connection, function(result){
+    console.log(result);
+    res.send('ok  ' + result);
+  });
 })
 
 
