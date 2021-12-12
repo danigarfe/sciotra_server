@@ -1,5 +1,14 @@
 from classes import *
 
+# FAAAALTAAA--->En la función getLastValueLinia, falta definir en la consulta la parada desde la que se hace esta query
+def getLastValueLinia(table, linia, mysql):
+    q = "SELECT * FROM " + table + "WHERE linia = " + linia + " ORDER BY id DESC LIMIT 1;"
+    cur = mysql.connection.cursor()
+    cur.execute(q)
+    result = cur.fetchall()
+    mysql.connection.commit()
+    return result
+
 #OBTÉ LA DARRERA ENTRADA DE LA BASE DE DADES DE LA TAULA ESPECIFICADA
 #Lo mejor seria coger los últimos 5 buses que han llegado a esa parada especifica a través del timestamp
 #autobus_bus es un registro del bus que ha pasado por la parada con ID_parada.
@@ -28,11 +37,13 @@ def insert(table, values, mysql):
 def initsensors(mysql):
     #hacer array de buses bus[i], recorrer un array de lineas de bus ('L69', 'L70'...) Runearlos TODOS de una.
     #El 0 representa el id_bus. Tiene que ser valor único.
+
     #autobus_bus(N, id_bus, lin, parades)
     bus = autobus_bus(30, 0, 'L69', [32, 30, 2, 33, 5, 6, 7, 9, 13, 11, 15, 17, 18, 19, 21, 22, 26, 28, 27, 25, 24, 23, 20, 16, 14, 12, 10, 8, 4, 3, 1, 31, 29])
     t = Thread(target=bus.run)
     t.start()
-    
+
+    # soilmoisture(N, id_sensor, latitud, longitud)
     sensor_humitat = soilmoisture(100, 12, 46.52, 47.23)
     t1 = Thread(target=sensor_humitat.run)
     t1.start()

@@ -1,5 +1,8 @@
+from datetime import datetime
 from threading import Thread
 from time import sleep
+#from flask.functions import *
+#from flask_mysqldb import MySQL
 from functions import *
 import random
 
@@ -9,7 +12,8 @@ class autobus_bus:
     #id_bus => ID DEL SENSOR EN CONCRET
     #lin => LÍNEA D'AUTOBUS DEL SENSOR
 
-    id_parada = ""
+    id_parada = 0
+    timestamp = 0
 
     def __init__(self, N, id_bus, lin, parades):
         self.interval = (5/N) * 60 #interval d'execució en segons
@@ -27,8 +31,10 @@ class autobus_bus:
         #Aquí la clave sería ir guardando las llegadas de los buses a cada parada en especifico en la base de datos. Primero lo dejamos así y luego podemos subir el tiempo de simulación para no cargar tanto de datos la BBDD.
         while True:
             sleep(self.interval)
+            now = datetime.now()
+            self.timestamp = datetime.timestamp(now)
             self.id_parada = self.parades[count % len(self.parades)]
-            print("\n\nHa arribat el bus amb ID: " + str(self.id_bus) + " de la línia " + self.linia + " a la parada amb ID: " + str(self.id_parada) + "\n\n")
+            print("\n\nHa arribat el bus amb ID: " + str(self.id_bus) + " de la línia " + self.linia + " a la parada amb ID: " + str(self.id_parada) + "\n\nEl seu timestamp es: " + str(self.timestamp) + "\n\n")
             count = count+1
             #***********Aquí hacer un insert de Autobus_bus***********
             
@@ -65,3 +71,25 @@ class soilmoisture:
                         is_pump = False # Apaguem la bomba d'aigua si l'humitat es major ó igual al 60%
                         print("\n\nS'ha desactivat la bomba d'aigua.\n\n \
                             Nivell d'humitat estable\n\n")
+
+
+class autobus_parada:
+
+    buffer_busos = []
+
+    def __init__(self, N, id_parada, latitud, longitud, linies):
+        self.interval = (5/N) * 60  # interval de temps que triga per incorporar una nova línia random al buffer
+        self.id_parada = id_parada  # Identificador real definit (códi parada)
+        self.latitud = latitud  # Posició de la parada
+        self.longitud = longitud  # Posició de la parada
+        self.linies = linies # Linies disponibles en aquesta parada
+
+   #  def run(self):
+       # while True:
+        #   sleep(self.interval)  # Dorm durant 5 minuts i afegeix l'última referencia del bus al *buffer_busos* que ha passat d'aquesta linea escollida de manera aleatoria.
+        #  if (len(self.buffer_busos) < 5):
+        #    numRandom = random.choice(self.linies)
+        #    result = getLastValueLinia(autobus_bus, numRandom, MySQL)
+        #    self.buffer_busos.append(result)
+        #  elif (len(self.buffer_busos) == 5):
+

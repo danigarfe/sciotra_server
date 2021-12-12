@@ -10,7 +10,8 @@ create table soilmoisture (
 );
 
 create table autobus_parada (
-    ID_parada int auto_increment,
+    id int auto_increment,
+    ID_parada int unique,
     latitud float,
     longitud float,
     linies text,
@@ -21,7 +22,7 @@ create table autobus_bus (
     id int auto_increment,
     ID_bus int,
     ID_parada int,
-    linea text,
+    linia text,
     ts timestamp,
     foreign key(ID_parada) references autobus_parada(ID_parada),
     primary key(id)
