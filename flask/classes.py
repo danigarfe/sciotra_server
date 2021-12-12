@@ -27,11 +27,10 @@ class autobus_bus:
         #Aquí la clave sería ir guardando las llegadas de los buses a cada parada en especifico en la base de datos. Primero lo dejamos así y luego podemos subir el tiempo de simulación para no cargar tanto de datos la BBDD.
         while True:
             sleep(self.interval)
-            print("HA LLEGADO EL BUS ID=" + str(self.id_bus) + " DE LA LÍNEA " + self.linia + " A LA PARADA " + str(self.parades[count%len(self.parades)]))
             self.id_parada = self.parades[count % len(self.parades)]
-            print("Aquí mostramos el ID de la parada actual: " + str(self.id_parada))
+            print("\n\nHa arribat el bus amb ID: " + str(self.id_bus) + " de la línia " + self.linia + " a la parada amb ID: " + str(self.id_parada) + "\n\n")
             count = count+1
-            #Aquí hacer un insert de Autobus_bus.
+            #***********Aquí hacer un insert de Autobus_bus***********
             
 class soilmoisture:
 
@@ -52,7 +51,7 @@ class soilmoisture:
         while True:
             sleep(self.interval_baixada)  # Dorm en aquest interval
             self.humitat = self.humitat - 1  # Baixa en 1% el nivell de la humitat del total (total:100%)
-            print("Han pasat " + str(self.interval_baixada*30) + " segons. Nivell d'humitat actual: " + str(self.humitat) + "\n\n")
+            print("Han pasat " + str(int((self.interval_baixada*100)/60)) + " minuts. Nivell d'humitat actual: " + str(self.humitat) + "\n\n")
             if (self.humitat < 30):  # Si la humitat es menor al 30% s'activa la bomba d'aigua i es va incrementant l'humitat
                 is_pump = True
                 print("\n\nS'ha activat la bomba d'aigua\n\n")
@@ -61,7 +60,7 @@ class soilmoisture:
                     if(self.humitat < 60):
                         sleep(self.interval_pujada)
                         self.humitat = self.humitat + 15
-                        print("Han pasat " + str(self.interval_pujada*30) + " segons. Nivell d'humitat actual: " + str(self.humitat) + "\n\n")
+                        print("Han pasat " + str(int((self.interval_pujada*100)/60)) + " minuts. Nivell d'humitat actual: " + str(self.humitat) + "\n\n")
                     else:
                         is_pump = False # Apaguem la bomba d'aigua si l'humitat es major ó igual al 60%
                         print("\n\nS'ha desactivat la bomba d'aigua.\n\n \

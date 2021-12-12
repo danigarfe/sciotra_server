@@ -33,7 +33,7 @@ def initsensors(mysql):
     t = Thread(target=bus.run)
     t.start()
     
-    sensor_humitat = soilmoisture(30, 12, 46.52, 47.23)
+    sensor_humitat = soilmoisture(100, 12, 46.52, 47.23)
     t1 = Thread(target=sensor_humitat.run)
     t1.start()
     return 0
