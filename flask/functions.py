@@ -13,8 +13,8 @@ def getLastValueLinia(table, linia, mysql):
 #Lo mejor seria coger los últimos 5 buses que han llegado a esa parada especifica a través del timestamp
 #autobus_bus es un registro del bus que ha pasado por la parada con ID_parada.
 #La clave seria buscar por la ID_Parada y por el últimos timestamp de todas las lineas.
-def getlast(table, mysql):
-    q = "SELECT * FROM " + table + " ORDER BY id DESC LIMIT 1;"
+def getlast(table, mysql, n=1):
+    q = "SELECT * FROM " + table + " ORDER BY ts DESC LIMIT " + n + ";"
     cur = mysql.connection.cursor()
     cur.execute(q)
     result = cur.fetchall()
@@ -39,12 +39,17 @@ def initsensors(mysql):
     #El 0 representa el id_bus. Tiene que ser valor único.
 
     #autobus_bus(N, id_bus, lin, parades)
-    bus = autobus_bus(30, 0, 'L69', [32, 30, 2, 33, 5, 6, 7, 9, 13, 11, 15, 17, 18, 19, 21, 22, 26, 28, 27, 25, 24, 23, 20, 16, 14, 12, 10, 8, 4, 3, 1, 31, 29])
-    t = Thread(target=bus.run)
-    t.start()
+    try:
+        bus = autobus_bus(30, 0, 'L69', [32, 30, 2, 33, 5, 6, 7, 9, 13, 11, 15, 17, 18, 19, 21, 22, 26, 28, 27, 25, 24, 23, 20, 16, 14, 12, 10, 8, 4, 3, 1, 31, 29])
+        t = Thread(target=bus.run)
+        t.start()
 
-    # soilmoisture(N, id_sensor, latitud, longitud)
-    sensor_humitat = soilmoisture(100, 12, 46.52, 47.23)
-    t1 = Thread(target=sensor_humitat.run)
-    t1.start()
-    return 0
+        # soilmoisture(N, id_sensor, latitud, longitud)
+        sensor_humitat = soilmoisture(100, 12, 46.52, 47.23)
+        t1 = Thread(target=sensor_humitat.run)
+        t1.start()
+        return 0
+    except (KeyboardInterrupt, SystemExit):
+        t.stop()
+        t1.stop()
+        sys.exit()

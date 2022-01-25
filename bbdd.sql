@@ -1,66 +1,10 @@
 -- TABLAS DE MEDIDAS --
-
-create table soilmoisture (
-    id int auto_increment,
-    ID_sensor int,
-    humitat float,
-    is_pump boolean,
-    ts timestamp,
-    primary key(id)
-);
-
-create table autobus_bus (
-    id int auto_increment,
-    ID_bus int,
-    ID_parada int,
-    linia text,
-    ts timestamp,
-    foreign key(ID_parada) references autobus_parada_info(ID_parada),
-    primary key(id)
-);
-
-create table cameres (
-    id int auto_increment,
-    ID_camera int,
-    intensitat_transit int,
-    accident_flag boolean,
-    ts timestamp,
-    primary key(id)
-);
-
-create table contenidors (
-    id int auto_increment,
-    ID_contenidor int,
-    nombre_contenidors int,
-    estat_contenidors text,
-    ts timestamp,
-    primary key(id)
-);
-
-create table contaminacio (
-    id int auto_increment,
-    ID_sensor int,
-    tipus_sensor int,
-    valor float,
-    ts timestamp,
-    primary key(id)
-);
-
-create table bicicleta_stop (
-    id int auto_increment,
-    ID_parada int,
-    nombre_llocs int,
-    nombre_llocs_ocupats int,
-    nombre_llocs_lliures int,
-    ts timestamp,
-    primary key(id)
-);
+DROP DATABASE bbdd;
+CREATE DATABASE bbdd;
+USE bbdd;
 
 
-
-
-
--- TABLAS DE INFORMACIÓN --
+-- TAULES DE INFORMACIÓ --
 
 create table autobus_parada_info (
     ID_parada int unique,
@@ -283,3 +227,70 @@ INSERT INTO contaminacio_info (ID_sensor, latitud, longitud) VALUES (12,41.38397
 INSERT INTO contaminacio_info (ID_sensor, latitud, longitud) VALUES (13,41.38905,2.30861111);
 INSERT INTO contaminacio_info (ID_sensor, latitud, longitud) VALUES (14,41.38993889,2.134427778);
 INSERT INTO contaminacio_info (ID_sensor, latitud, longitud) VALUES (15,41.39152778,2.139508333);
+
+
+
+
+-- TAULES DE DADES --
+
+create table autobus_bus (
+    id int auto_increment,
+    ID_bus int,
+    ID_parada int,
+    linia text,
+    ts timestamp,
+    foreign key(ID_parada) references autobus_parada_info(ID_parada),
+    primary key(id)
+);
+
+create table soilmoisture (
+    id int auto_increment,
+    ID_sensor int,
+    humitat float,
+    is_pump boolean,
+    ts timestamp,
+    primary key(id)
+);
+
+
+create table cameres (
+    id int auto_increment,
+    ID_camera int,
+    intensitat_transit int,
+    accident_flag boolean,
+    ts timestamp,
+    primary key(id)
+);
+
+create table contenidors (
+    id int auto_increment,
+    ID_contenidor int,
+    nombre_contenidors int,
+    estat_contenidors text,
+    ts timestamp,
+    primary key(id)
+);
+
+create table contaminacio (
+    id int auto_increment,
+    ID_sensor int,
+    tipus_sensor int,
+    valor float,
+    ts timestamp,
+    primary key(id)
+);
+
+create table bicicleta_stop (
+    id int auto_increment,
+    ID_parada int,
+    nombre_llocs int,
+    nombre_llocs_ocupats int,
+    nombre_llocs_lliures int,
+    ts timestamp,
+    primary key(id)
+);
+
+
+
+
+
