@@ -274,8 +274,10 @@ create table contenidors (
 create table contaminacio (
     id int auto_increment,
     ID_sensor int,
-    tipus_sensor int,
-    valor float,
+    isICA int,
+    isNOISE int,
+    ICAvalue int,
+    NOISEvalue int,
     ts timestamp,
     primary key(id)
 );
