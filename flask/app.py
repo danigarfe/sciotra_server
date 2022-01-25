@@ -9,17 +9,10 @@ PER EXECUTAR, A LA CARPETA /flask FEM:
 pip install flask
 pip install flask_mysqldb
 flask run
-
-EXEMPLE D'ÚS MYSQL:
-cur = mysql.connection.cursor()
-cur.execute("INSERT INTO MyUsers(firstName, lastName)........")
-mysql.connection.commit()
 '''
 
-#MYSQL DATABASE CONFIGURATION
+#MYSQL DATABASE INIZIALIZATION
 globals.initializedb(app)
-
-#print(getlast(table="autobus_bus"))
 
 
 @app.route('/')
@@ -37,18 +30,14 @@ def last():
       result = getlast(request.args.get("taula"))
     return jsonify(result)
 
-@app.route('/put')
-def put():
-    insert('autobus_bus', [0,1,21,"'L40'",'NULL'])
-    return 'OK'
-
-
+#EJEMPLO PETICIÓN: GET /paradas?linea="N12" devuelve las paradas por las que pasa en JSON
 @app.route('/paradas')
 def paradas():
   result = getparadas(request.args.get("linea"))
   return jsonify(result)
 
+#GET /init   inicia los threads de los sensores
 @app.route('/init')
 def init():
-  initsensors()
+  initsensors(app)
   return "OK"

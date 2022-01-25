@@ -31,7 +31,8 @@ def insert(table, values):
     for i in range(len(values)-1):
         q = q + str(values[i]) + ','
     q = q + str(values[len(values)-1]) + ');'
-    cur = globals.mysql.connection.cursor()
+    conn = globals.mysql.connection
+    cur = conn.cursor()
     cur.execute(q)
     result = cur.fetchall()
     cur.close()
@@ -39,19 +40,25 @@ def insert(table, values):
     return result
 
 # LA IDEA ÉS FER UN THREAD PER A CADA "SENSOR VIRTUAL". COMPORTAMENT DE CADA TIPUS DE SENSOR DEFINIT A classes.py
-def initsensors():
+def initsensors(app):
     #hacer array de buses bus[i], recorrer un array de lineas de bus ('L69', 'L70'...) Runearlos TODOS de una.
     #El 0 representa el id_bus. Tiene que ser valor único.
-
-    bus = autobus_bus(30, 0, 'L69')
+    '''
+    bus = autobus_bus(30, 'L69')
     t = Thread(target=bus.run)
     t.start()
-
+    '''
+    with app.app_context():
+        #INICIO THREADS SENSORES DE HUMEDAD
+        soilsensors = []
+        for i in range(62): #62
+            soilsensors.append(soilmoisture(i+1))
+            Thread(target=soilsensors[i].run, kwargs={'app': app}).start()
+            
+        print("SENSORES DE HUMEDAD INICIADOS")
+    
     # soilmoisture(N, id_sensor, latitud, longitud)
-    sensor_humitat = soilmoisture(100, 12, 46.52, 47.23)
-    t1 = Thread(target=sensor_humitat.run)
-    t1.start()
-    return 0
+    
 
 
 #DEVUELVE LAS PARADAS EN LAS QUE PARA UN BUS DE UNA DETERMINADA LÍNEA
