@@ -40,7 +40,7 @@ def initsensors(mysql):
 
     #autobus_bus(N, id_bus, lin, parades)
     try:
-        bus = autobus_bus(30, 0, 'L69', [32, 30, 2, 33, 5, 6, 7, 9, 13, 11, 15, 17, 18, 19, 21, 22, 26, 28, 27, 25, 24, 23, 20, 16, 14, 12, 10, 8, 4, 3, 1, 31, 29])
+        bus = autobus_bus(30, 0, 'L69', mysql)
         t = Thread(target=bus.run)
         t.start()
 
@@ -53,3 +53,20 @@ def initsensors(mysql):
         t.stop()
         t1.stop()
         sys.exit()
+
+
+#DEVUELVE LAS PARADAS EN LAS QUE PARA UN BUS DE UNA DETERMINADA LÍNEA
+def getparadas(linea, mysql, vector=True):
+    q = "SELECT * FROM autobus_parada_info WHERE INSTR(linies, '" + linea + "')>0;"
+    cur = mysql.connection.cursor()
+    cur.execute(q)
+    result = cur.fetchall()
+    mysql.connection.commit()
+    listaparadas = []
+    for i in result:
+        listaparadas.append(i[0])
+    print(listaparadas)
+    if vector==False:
+        return result
+    else:
+        return listaparadas

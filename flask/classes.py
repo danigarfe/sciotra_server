@@ -13,11 +13,11 @@ class autobus_bus:
     id_parada = 0
     timestamp = 0
 
-    def __init__(self, N, id_bus, lin, parades):
+    def __init__(self, N, id_bus, lin, mysql):
         self.interval = (5/N) * 60 #interval d'execució en segons
         self.id_bus = id_bus
         self.linia = lin
-        self.parades = parades
+        self.parades = getparadas(lin, mysql)
         
     #S'EXECUTA AL THREAD, BUCLE INFINIT AMB PARADES sleep() 
     def run(self):
@@ -69,24 +69,4 @@ class soilmoisture:
                         print("\n\nS'ha desactivat la bomba d'aigua.\n\n \
                             Nivell d'humitat estable\n\n")
 
-
-class autobus_parada:
-
-    buffer_busos = []
-    def __init__(self, N, id_parada, latitud, longitud, linies, mysql):
-        self.interval = (5/N) * 60  # interval de temps que triga per incorporar una nova línia random al buffer
-        self.id_parada = id_parada  # Identificador real definit (códi parada)
-        self.latitud = latitud  # Posició de la parada
-        self.longitud = longitud  # Posició de la parada
-        self.linies = linies # Linies disponibles en aquesta parada
-        self.MySQL = mysql
-
-   #  def run(self):
-       # while True:
-        #   sleep(self.interval)  # Dorm durant 5 minuts i afegeix l'última referencia del bus al *buffer_busos* que ha passat d'aquesta linea escollida de manera aleatoria.
-        #  if (len(self.buffer_busos) < 5):
-        #    numRandom = random.choice(self.linies)
-        #    result = getLastValueLinia(autobus_bus, numRandom, MySQL)
-        #    self.buffer_busos.append(result)
-        #  elif (len(self.buffer_busos) == 5):
 

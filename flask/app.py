@@ -44,3 +44,7 @@ def put():
     return 'OK'
 
 
+@app.route('/paradas')
+def paradas():
+    result = getparadas(request.args.get("linea"), mysql, False)
+    return jsonify(result)
