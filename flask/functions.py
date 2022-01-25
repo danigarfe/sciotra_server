@@ -54,8 +54,30 @@ def initsensors(app):
         for i in range(62): #62
             soilsensors.append(soilmoisture(i+1))
             Thread(target=soilsensors[i].run, kwargs={'app': app}).start()
-            
         print("SENSORES DE HUMEDAD INICIADOS")
+
+
+        bus1 = autobus_bus(1, "E30")
+        bus2 = autobus_bus(2, "E79")
+        bus3 = autobus_bus(3, "E97")
+        bus4 = autobus_bus(4, "E98")
+        bus5 = autobus_bus(5, "L51")
+        bus6 = autobus_bus(6, "L57")
+        bus7 = autobus_bus(7, "L61")
+        bus8 = autobus_bus(8, "L63")
+        bus9 = autobus_bus(9, "L68")
+        bus10 = autobus_bus(10, "L97")
+        Thread(target=bus1.run, kwargs={'app': app}).start()
+        Thread(target=bus2.run, kwargs={'app': app}).start()
+        Thread(target=bus3.run, kwargs={'app': app}).start()
+        Thread(target=bus4.run, kwargs={'app': app}).start()
+        Thread(target=bus5.run, kwargs={'app': app}).start()
+        Thread(target=bus6.run, kwargs={'app': app}).start()
+        Thread(target=bus7.run, kwargs={'app': app}).start()
+        Thread(target=bus8.run, kwargs={'app': app}).start()
+        Thread(target=bus9.run, kwargs={'app': app}).start()
+        Thread(target=bus10.run, kwargs={'app': app}).start()
+        print("BUSES INICIADOS")
     
     # soilmoisture(N, id_sensor, latitud, longitud)
     
@@ -69,6 +91,5 @@ def getparadas(linea):
     result = cur.fetchall()
     cur.close()
     globals.mysql.connection.commit()
-    print(str(result).split("'")[1])
     res = str(result).split("'")[1]
     return res.split(',')
