@@ -34,8 +34,9 @@ def say_hello():
 
 @app.route('/last')
 def last():
-    result = getlast('autobus_bus', mysql)
-    return 'OK'
+    taula = request.args.taula
+    result = getlast(taula, mysql)
+    return result
 
 @app.route('/put')
 def put():

@@ -1,8 +1,6 @@
 from datetime import datetime
 from threading import Thread
 from time import sleep
-#from flask.functions import *
-#from flask_mysqldb import MySQL
 from functions import *
 import random
 
@@ -51,7 +49,6 @@ class soilmoisture:
         self.longitud = longitud  # Posició del sensor
         
     def run(self):
-
         self.humitat = random.uniform(35, 55) #Aquí definim la humitat inicial del sensor
         print("\n\nNivell d'humitat actual del sensor " + str(self.id_sensor) + ": " + str(self.humitat) + "\n\n")
         while True:
@@ -76,13 +73,13 @@ class soilmoisture:
 class autobus_parada:
 
     buffer_busos = []
-
-    def __init__(self, N, id_parada, latitud, longitud, linies):
+    def __init__(self, N, id_parada, latitud, longitud, linies, mysql):
         self.interval = (5/N) * 60  # interval de temps que triga per incorporar una nova línia random al buffer
         self.id_parada = id_parada  # Identificador real definit (códi parada)
         self.latitud = latitud  # Posició de la parada
         self.longitud = longitud  # Posició de la parada
         self.linies = linies # Linies disponibles en aquesta parada
+        self.MySQL = mysql
 
    #  def run(self):
        # while True:

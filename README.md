@@ -1,1 +1,0 @@
-# sciotra_server
