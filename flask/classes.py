@@ -1,7 +1,7 @@
 from datetime import datetime
 from threading import Thread
 from time import sleep
-from functions import *
+import functions
 import random
 
 #CADA TIPUS DE THREAD ÉS UNA CLASS
@@ -13,11 +13,11 @@ class autobus_bus:
     id_parada = 0
     timestamp = 0
 
-    def __init__(self, N, id_bus, lin, mysql):
+    def __init__(self, N, id_bus, lin):
         self.interval = (5/N) * 60 #interval d'execució en segons
         self.id_bus = id_bus
         self.linia = lin
-        self.parades = getparadas(lin, mysql)
+        self.parades = functions.getparadas(self.linia)
         
     #S'EXECUTA AL THREAD, BUCLE INFINIT AMB PARADES sleep() 
     def run(self):
@@ -68,5 +68,6 @@ class soilmoisture:
                         is_pump = False # Apaguem la bomba d'aigua si l'humitat es major ó igual al 60%
                         print("\n\nS'ha desactivat la bomba d'aigua.\n\n \
                             Nivell d'humitat estable\n\n")
+
 
 

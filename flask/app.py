@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from functions import *
+from classes import *
+import globals
 app = Flask(__name__)
 '''
 PER EXECUTAR, A LA CARPETA /flask FEM:
@@ -15,14 +17,10 @@ mysql.connection.commit()
 '''
 
 #MYSQL DATABASE CONFIGURATION
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Sciotra1234'
-app.config['MYSQL_DB'] = 'bbdd'
-mysql = MySQL(app)
+globals.initializedb(app)
 
-#INICIA EL SENSORS
-initsensors(mysql)
+#print(getlast(table="autobus_bus"))
+
 
 @app.route('/')
 def index():
@@ -32,19 +30,25 @@ def index():
 #EJEMPLO PETICIÓN: GET /last?taula=autobus_bus&n=5 DEVUELVE LAS 5 ÚLTIMAS ENTRADAS DE autobus_bus (SEGÚN TIMESTAMP) EN JSON
 @app.route('/last')
 def last():
-    taula = request.args.get("taula")
-    if request.args.get("n") != "":
+    if request.args.get("n") != None:
       n = request.args.get("n")
-    result = getlast(taula, mysql, n)
+      result = getlast(request.args.get("taula"), n)
+    else:
+      result = getlast(request.args.get("taula"))
     return jsonify(result)
 
 @app.route('/put')
 def put():
-    insert('autobus_bus', [0,1,21,"'L40'",'NULL'], mysql)
+    insert('autobus_bus', [0,1,21,"'L40'",'NULL'])
     return 'OK'
 
 
 @app.route('/paradas')
 def paradas():
-    result = getparadas(request.args.get("linea"), mysql, False)
-    return jsonify(result)
+  result = getparadas(request.args.get("linea"))
+  return jsonify(result)
+
+@app.route('/init')
+def init():
+  initsensors()
+  return "OK"

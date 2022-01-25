@@ -290,6 +290,76 @@ create table bicicleta_stop (
     primary key(id)
 );
 
+create table linies_info (
+    ID_linia int unique,
+    nom text,
+    parades text,
+    primary key(ID_linia)
+);
+
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (0,'6', '494,42,373,822,524');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (1,'7', '310,2542,2543,492,493,494,42,373,822,524,41,237,458,21,547');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (2,'33', '2543,492,493,494,42,373,822,524,41,237,458,21,548');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (3,'34', '494,42,373,822,524');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (4,'63', '492,493,494,42,373,822,524,41,237');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (5,'67', '309,310,2542,2543,492,493,494,42,373,822,524,41,237,766,21,2541,250,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (6,'70', '491');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (7,'78', '492,493,494,41,237');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (8,'101', '3440');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (9,'113', '3174,2992,21,548');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (10,'175', '310,2542,2543,492,237,766,21,548');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (11,'E30', '309,310,3233,3222,3234,3223,42,373,41,237,766,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (12,'E79', '309,310,3233,3222,3223,42,373,41,237,766,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (13,'E97', '309,310,3233,3222,3234,3223,237,458,105349,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (14,'E98', '309,310,3233,3222,3234,3223,237,458,105349,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (15,'H6', '3233,3222,3234,3223,458,21,556');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (16,'L51', '309,2542,108719,373,941,483,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (17,'L57', '309,2542,108719,373,941,483,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (18,'L61', '309,2542,108719,373,941,483,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (19,'L63', '309,2542,108719,373,483,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (20,'L64', '309,2542,108719,373,941,483,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (21,'L68', '309,108719,373,941,483,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (22,'L69', '309,108719,941,483,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (23,'L97', '309,310,3233,3222,3234,3223,237,458,105349,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (24,'567', '309,108719,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (25,'e2.2', '3222,3223,105349');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (26,'e8', '310,42,941,483,262142,2541');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (27,'e15.2', '106175,262141,766,105349,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (28,'e17', '309,2542,108719,373,941,483,237,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (29,'e20', '309,2542,108719,373,941,483,237,262141,21,2541,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (30,'e22', '3233');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (31,'hillsa', '309,105349');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (32,'mon_bus', '309,3233,3802,262141,766,105349,251');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (33,'M12', '3223,105911');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (34,'M14', '107037,2542,2543,492,108719,237,766,21,108891');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (35,'N12', '310,2542,2543,492,493,494,42,373,822,106175,524,41,237,766,105349,548');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (36,'N50', '2542,108719,237,2541');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (37,'X1', '106175');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (38,'V1', '3174,548');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (39,'V3', '491');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (40,'V5', '492,237');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (41,'V9', '822');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (42,'BCTO', '110442,262144');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (43,'BAIX', '262141,105349');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (44,'HISPANO_IGUALADINA', '262141,105349,2541');
+INSERT INTO linies_info (ID_linia, nom, parades) VALUES (45,'ESCAPADES_ALSINA_GRAELLS', '156794');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
