@@ -5,6 +5,7 @@ from time import sleep
 import globals
 import functions
 import random
+import json
 
 #CADA TIPUS DE THREAD ÉS UNA CLASS
 class autobus_bus:
@@ -30,7 +31,7 @@ class autobus_bus:
                 now = datetime.now()
                 self.timestamp = datetime.timestamp(now)
                 functions.insert("autobus_bus", [0, self.id_bus,self.parades[self.count_parada], "'"+self.linia + "'", "NULL"])
-                print("Bus " + self.linia + " llega a la parada " + self.parades[self.count_parada])
+                #print("Bus " + self.linia + " llega a la parada " + self.parades[self.count_parada])
                 self.count_parada = self.count_parada + 1
                 if self.count_parada==len(self.parades):
                     self.count_parada=0
@@ -68,38 +69,102 @@ class soilmoisture:
                             is_pump = False # Apaguem la bomba d'aigua si l'humitat es major ó igual al 60%
                             #print("\n\nS'ha desactivat la bomba d'aigua.\n\n \ Nivell d'humitat estable\n\n")
 
-'''
-#CADA TIPUS DE THREAD ÉS UNA CLASS
-class nodecontaminacio:
 
+
+class nodecontaminacio:
+    #posibles tipos aire, ruido, mix
     def __init__(self, ID, tipo):
         self.ID = ID
-        self.interval = (5/globals.N) * 60 #interval d'execució en segons, tiempo entre parada y parada
-        self.tipo=tipo
+        self.interval = (15/globals.N) * 60 #interval d'execució en segons, tiempo entre parada y parada
         if tipo=="aire":
-            self.valor = round(random.uniform(0, 150))
-        else:
-            self.valor = round(random.uniform(30, 100))
+            self.isICA = 1
+            self.isNOISE = 0
+            self.valorICA = round(random.uniform(0, 150))
+            self.valorNOISE = 0
+        
+        if tipo=="ruido":
+            self.isICA = 0
+            self.isNOISE = 1
+            self.valorICA = 0
+            self.valorNOISE = round(random.uniform(30, 100))
+        
+        if tipo=="mix":
+            self.isICA = 1
+            self.isNOISE = 1
+            self.valorICA = round(random.uniform(0, 150))
+            self.valorNOISE = round(random.uniform(30, 100))
+
         
     #S'EXECUTA AL THREAD, BUCLE INFINIT AMB PARADES sleep() 
     def run(self, app):
         with app.app_context():
-            if self.tipo==aire:
-                while True:
-
-            else:
-                while True:
-
             while True:
                 sleep(self.interval)
-                now = datetime.now()
-                self.timestamp = datetime.timestamp(now)
-                functions.insert("autobus_bus", [0, self.id_bus,self.parades[self.count_parada], "'"+self.linia + "'", "NULL"])
-                print("Bus " + self.linia + " llega a la parada " + self.parades[self.count_parada])
-                self.count_parada = self.count_parada + 1
-                if self.count_parada==len(self.parades):
-                    self.count_parada=0
+                if self.isICA==1:
+                    r=random.uniform(0, 200)
+                    if r<=self.valorICA:
+                        A = -1
+                    else:
+                        A = 1
+                    self.valorICA = self.valorICA+A*10
+                if self.isNOISE==1:
+                    r=random.uniform(0, 130)
+                    if r<=self.valorNOISE:
+                        B = -1
+                    else:
+                        B = 1
+                    self.valorNOISE = self.valorNOISE+B*10
+                functions.insert("contaminacio", [0, self.ID, self.isICA, self.isNOISE, self.valorICA, self.valorNOISE, 'NULL'])
 
-'''
+class containers:
+    #posibles tipos aire, ruido, mix
+    def __init__(self, ID):
+        self.ID = ID
+        self.interval = (30/globals.N) * 60
+        self.inorganic = round(random.uniform(0, 90))
+        self.organic = round(random.uniform(0, 90))
+        self.glass = round(random.uniform(0, 90))
+        self.paper = round(random.uniform(0, 90))
+        self.plastic = round(random.uniform(0, 90))
+        
+
+        
+    #S'EXECUTA AL THREAD, BUCLE INFINIT AMB PARADES sleep() 
+    def run(self, app):
+        with app.app_context():
+            while True:
+                sleep(self.interval)
+                r = random.uniform(0, 1)
+                if r>0.5:
+                    self.inorganic = self.inorganic+10
+                r = random.uniform(0, 1)
+                if r>0.5:
+                    self.organic = self.organic+10
+                r = random.uniform(0, 1)
+                if r>0.5:
+                    self.glass = self.glass+10
+                r = random.uniform(0, 1)
+                if r>0.5:
+                    self.paper = self.paper+10
+                r = random.uniform(0, 1)
+                if r>0.5:
+                    self.plastic = self.plastic+10
+                if self.inorganic>=100:
+                    self.inorganic=0
+                if self.organic>=100:
+                    self.organic=0
+                if self.glass>=100:
+                    self.glass=0
+                if self.paper>=100:
+                    self.paper=0
+                if self.plastic>=100:
+                    self.plastic=0
+                listavalores = {'inorganic': self.inorganic,'organic': self.organic,'glass': self.glass,'paper': self.paper,'plastic': self.plastic}
+                listastr = json.dumps(listavalores)
+                functions.insert("contenidors", [0, self.ID, 5, "'" + listastr + "'", 'NULL'])
+
+                
+
+
 
 
