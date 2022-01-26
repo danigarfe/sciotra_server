@@ -163,8 +163,73 @@ class containers:
                 listastr = json.dumps(listavalores)
                 functions.insert("contenidors", [0, self.ID, 5, "'" + listastr + "'", 'NULL'])
 
+class bike_stop:
+    
+    def __init__(self, IDparada):
+        self.interval = (10/globals.N) * 60
+        self.IDparada = IDparada
+        self.nombre_llocs = 20
+        self.nombre_llocs_lliures = round(random.uniform(1, 19))
+        self.nombre_llocs_ocupats = self.nombre_llocs - self.nombre_llocs_lliures
+        
+    #S'EXECUTA AL THREAD, BUCLE INFINIT AMB PARADES sleep() 
+    def run(self, app):
+        with app.app_context():
+            while True:
+                sleep(self.interval)
+                r = random.uniform(0, 1)
+                if self.nombre_llocs_ocupats == 20:
+                    if r >= 0.2:
+                        self.nombre_llocs_ocupats = self.nombre_llocs_ocupats - 1
+                        self.nombre_llocs_lliures = self.nombre_llocs_lliures + 1
+                elif self.nombre_llocs_lliures == 0:
+                    if r >= 0.2:
+                    self.nombre_llocs_lliures = self.nombre_llocs_lliures + 1
+                    self.nombre_llocs_ocupats = self.nombre_llocs_ocupats - 1
+                else:
+                    if r>= 0.2 and r<= 0.6:
+                        self.nombre_llocs_ocupats = self.nombre_llocs_ocupats + 1
+                        self.nombre_llocs_lliures = self.nombre_llocs_lliures - 1
+                    elif r>= 0.6 and r<= 1:
+                        self.nombre_llocs_ocupats = self.nombre_llocs_ocupats - 1
+                        self.nombre_llocs_lliures = self.nombre_llocs_lliures + 1
+
+                functions.insert("bicicleta_stop", [0, self.IDparada, self.nombre_llocs, self.nombre_llocs_lliures, self.nombre_llocs_ocupats, "NULL"])
+
+class camera:
+    
+    count_tointerval2 = 0
+
+    def __init__(self, ID_camera):
+        self.interval = (10/globals.N) * 60
+        self.ID_camera = ID_camera
+        self.intensitat_transit = round(random.uniform(0, 2))
+        self.accident_flag = False
+        
+    #S'EXECUTA AL THREAD, BUCLE INFINIT AMB PARADES sleep() 
+    def run(self, app):
+        with app.app_context():
+            while True:
+                sleep(self.interval)
+                count_tointerval2 = 1
+                if count_tointerval2 < 100:
+                    self.accident_flag = False
+                    r = random.uniform(0, 1)
+                    if r <= 0.3:
+                        if self.intensitat_transit == 2:
+                            self.intensitat_transit = 1
+                        elif: self.intensitat_transit == 1:
+                            self.intensitat_transit = random.choice((0,2)) 
+                        else:
+                            self.intensitat_transit == 1
+                else: 
+                    count_tointerval2 = 0
+                    r = random.uniform(0, 1)
+                    '''
+                    ¿Cuándo quieres que vuelva el flag de accidente a False? En la próxima vuelta, o esperamos 2 vueltas de simulación de 10 min?
+                    '''
+                    if r >= 0.5:
+                        self.accident_flag = True
+                        self.intensitat_transit = 2
                 
-
-
-
-
+                functions.insert("cameres", [0, self.ID_camera, self.intensitat_transit, self.accident_flag, "NULL"])
