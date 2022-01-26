@@ -41,3 +41,39 @@ def paradas():
 def init():
   initsensors(app)
   return "OK"
+
+@app.route('/getCamera')
+def getCamera():
+  result = getlast("cameres")
+  obj = {
+    'ID' : result[0][1],
+    'intensitat_transit' : result[0][2],
+    'accident_flag' : result[0][3],
+    'timestamp' : result[0][4]
+  }
+  return jsonify(obj)
+
+@app.route('/getSoil')
+def getSoil():
+  results = getlastSoil()
+  return jsonify(results)
+
+@app.route('/getBike')
+def getBike():
+  results = getlastBike()
+  return jsonify(results)
+
+@app.route('/getBin')
+def getBin():
+  results = getlastBin()
+  return jsonify(results)
+
+@app.route('/getContaminacio')
+def getContaminacio():
+  results = getlastContaminacio()
+  return jsonify(results)
+
+@app.route('/getBus')
+def getBus():
+  results = getlastBus()
+  return jsonify(results)

@@ -1,6 +1,7 @@
 from classes import *
 from flask import jsonify
 import globals
+import json
 
 
 # FAAAALTAAA--->En la función getLastValueLinia, falta definir en la consulta la parada desde la que se hace esta query
@@ -24,6 +25,96 @@ def getlast(table, n=1):
     result = cur.fetchall()
     globals.mysql.connection.commit()
     return result
+
+def getlastSoil():
+    results = []
+    for i in range(62):
+        q = "SELECT * FROM soilmoisture WHERE ID_sensor=" + str(i+1) +" ORDER BY ts DESC LIMIT 1;"
+        cur = globals.mysql.connection.cursor()
+        cur.execute(q)
+        result = cur.fetchall()
+        globals.mysql.connection.commit()
+        obj = {
+            'ID': result[0][1],
+            'nivell_humitat': result[0][2],
+            'isPumping' : result[0][3],
+            'timestamp' : result[0][4]
+        }
+        results.append(obj)
+    return results
+
+def getlastBike():
+    results = []
+    for i in range(15):
+        q = "SELECT * FROM bicicleta_stop WHERE ID_parada=" + str(i+1) +" ORDER BY ts DESC LIMIT 1;"
+        cur = globals.mysql.connection.cursor()
+        cur.execute(q)
+        result = cur.fetchall()
+        globals.mysql.connection.commit()
+        obj = {
+            'ID': result[0][1],
+            'places_totals': result[0][2],
+            'places_usades' : result[0][3],
+            'places_lliures' : result[0][4],
+            'timestamp' : result[0][5],
+        }
+        results.append(obj)
+    return results
+
+def getlastBin():
+    results = []
+    for i in range(33):
+        q = "SELECT * FROM contenidors WHERE ID_contenidor=" + str(i+1) +" ORDER BY ts DESC LIMIT 1;"
+        cur = globals.mysql.connection.cursor()
+        cur.execute(q)
+        result = cur.fetchall()
+        globals.mysql.connection.commit()
+        obj = {
+            'ID': result[0][1],
+            'nombre_contenidors': result[0][2],
+            'dades' : json.loads(result[0][3]),
+            'timestamp' : result[0][4],
+        }
+        results.append(obj)
+    return results
+
+def getlastContaminacio():
+    results = []
+    for i in range(15):
+        q = "SELECT * FROM contaminacio WHERE ID_sensor=" + str(i+1) +" ORDER BY ts DESC LIMIT 1;"
+        cur = globals.mysql.connection.cursor()
+        cur.execute(q)
+        result = cur.fetchall()
+        globals.mysql.connection.commit()
+        obj = {
+            'ID': result[0][1],
+            'isICA': result[0][2],
+            'isNoise' : result[0][3],
+            'ICAvalue' : result[0][4],
+            'NOISEvalue' : result[0][5],
+            'timestamp' : result[0][6],
+        }
+        results.append(obj)
+    return results
+
+def getlastBus():
+    results = []
+    for i in range(10):
+        q = "SELECT * FROM autobus_bus WHERE ID_bus=" + str(i+1) +" ORDER BY ts DESC LIMIT 1;"
+        cur = globals.mysql.connection.cursor()
+        cur.execute(q)
+        result = cur.fetchall()
+        globals.mysql.connection.commit()
+        obj = {
+            'IDbus': result[0][1],
+            'IDparada': result[0][2],
+            'linia' : result[0][3],
+            'timestamp' : result[0][4],
+            'llistaparades' : getparadas(result[0][3])
+        }
+        results.append(obj)
+    return results
+
 
 #INSEREIX A LA TAULA ESPECIFICADA ELS VALORS ESPECIFICATS (values HA DE SER UN VECTOR AMB ELS VALORS EN ORDRE)
 def insert(table, values):
@@ -149,8 +240,8 @@ def initsensors(app):
         Thread(target=bikestop15.run, kwargs={'app': app}).start()
         print("NODOS DE PARADA BICICLETA INICIADOS")
 
-        camera = camera(1)
-        Thread(target=camera.run, kwargs={'app': app}).start()
+        camera1 = camera(1)
+        Thread(target=camera1.run, kwargs={'app': app}).start()
         print("NODO DE CÁMARA INICIADO")
 
 #DEVUELVE LAS PARADAS EN LAS QUE PARA UN BUS DE UNA DETERMINADA LÍNEA

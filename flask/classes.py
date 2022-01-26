@@ -184,8 +184,8 @@ class bike_stop:
                         self.nombre_llocs_lliures = self.nombre_llocs_lliures + 1
                 elif self.nombre_llocs_lliures == 0:
                     if r >= 0.2:
-                    self.nombre_llocs_lliures = self.nombre_llocs_lliures + 1
-                    self.nombre_llocs_ocupats = self.nombre_llocs_ocupats - 1
+                        self.nombre_llocs_lliures = self.nombre_llocs_lliures + 1
+                        self.nombre_llocs_ocupats = self.nombre_llocs_ocupats - 1
                 else:
                     if r>= 0.2 and r<= 0.6:
                         self.nombre_llocs_ocupats = self.nombre_llocs_ocupats + 1
@@ -209,19 +209,21 @@ class camera:
     #S'EXECUTA AL THREAD, BUCLE INFINIT AMB PARADES sleep() 
     def run(self, app):
         with app.app_context():
+            count_tointerval2 = 1
             while True:
                 sleep(self.interval)
-                count_tointerval2 = 1
-                if count_tointerval2 < 100:
+                count_tointerval2 = count_tointerval2 + 1
+                if count_tointerval2 < 50:
                     self.accident_flag = False
                     r = random.uniform(0, 1)
                     if r <= 0.3:
                         if self.intensitat_transit == 2:
-                            self.intensitat_transit = 1
-                        elif: self.intensitat_transit == 1:
-                            self.intensitat_transit = random.choice((0,2)) 
-                        else:
-                            self.intensitat_transit == 1
+                            new = 1
+                        if self.intensitat_transit == 1:
+                            new = random.choice([0,2]) 
+                        if self.intensitat_transit == 0:
+                            new = 1
+                        self.intensitat_transit = new
                 else: 
                     count_tointerval2 = 0
                     r = random.uniform(0, 1)
@@ -231,5 +233,4 @@ class camera:
                     if r >= 0.5:
                         self.accident_flag = True
                         self.intensitat_transit = 2
-                
                 functions.insert("cameres", [0, self.ID_camera, self.intensitat_transit, self.accident_flag, "NULL"])
